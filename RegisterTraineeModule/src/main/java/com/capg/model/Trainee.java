@@ -1,72 +1,68 @@
 package com.capg.model;
 
 import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Entity
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@ToString
 public class Trainee {
-	//@Id
-	@NotNull
-	//private String userId;
-	//private int traineeId;
-	@OneToOne(cascade=CascadeType.ALL)
-	//@ManyToOne
-	@JoinColumn(name="userId")
-	//@JoinColumn(name="trainerId")
-	//@JoinColumn(name="userIdfk",referencedColumnName="userId")
-	private Users user;
 	@Id
-	/*
-	 * @GeneratedValue(generator="system-uuid")
-	 * 
-	 * @GenericGenerator(name="system-uuid", strategy = "uuid")
-	 */
-	/*
-	 * @SequenceGenerator( name = "student_sequence", sequenceName =
-	 * "student_sequence", allocationSize = 1 )
-	 * 
-	 * @GeneratedValue( generator = "student_sequence", strategy =
-	 * GenerationType.SEQUENCE )
-	 */
-	//@GeneratedValue(strategy=GenerationType.AUTO)
-	@NotBlank
-	private String Name;
+	private String traineeId;
 	
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	@MapsId
+	@JoinColumn(name = "userID")
+	private Users user;
 	
+	@NotBlank(message="712")
+	private String name;
 	
-	//@ManyToOne
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="trainerId")
-	private Trainer trainer;
-	@NotBlank
-	private String location;
-	//@Pattern(regexp="")
-	@NotBlank
-	private String contact;
-	@NotBlank
+	@Transient
+	private String trainerName;
+	
+	@NotBlank(message="713")
 	private String technology;
-	@NotBlank
+	
+	@OneToOne(cascade=CascadeType.DETACH)
+	@JoinColumn(name="trainerId")
+	//@NotBlank(message="714")
+	private Trainer trainer;
+	
+	@NotBlank(message="715")
+	private String location;
+	
+	@NotBlank(message="716")
+	@Pattern(regexp="^[0-9]{3}-[0-9]{3}-[0-9]{4}$",message="556")
+	private String contact;
+	
+	@NotBlank(message="717")
 	private String domain;
-	@NotNull
+	
+	@Min(value=1,message="718")
 	private int passOutYear;
-	@NotBlank
+	
+	@NotBlank(message="719")
 	private String education;
-	
-	
-	
 }

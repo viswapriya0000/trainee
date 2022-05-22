@@ -1,45 +1,54 @@
 package com.capg.model;
 
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-@Entity
 @Component
-@NoArgsConstructor
+@Entity
 @AllArgsConstructor
-@Data
-
-public class Trainer {
+@NoArgsConstructor
+public @Data class Trainer {
 	@Id
-	/*
-	 * @GeneratedValue(generator="system-uuid")
-	 * 
-	 * @GenericGenerator(name="system-uuid", strategy = "uuid")
-	 */
-	/*
-	 * @SequenceGenerator( name = "student_sequence", sequenceName =
-	 * "student_sequence", allocationSize = 1 )
-	 * 
-	 * @GeneratedValue( generator = "student_sequence", strategy =
-	 * GenerationType.SEQUENCE )
-	 */
-	//@GeneratedValue(strategy=GenerationType.AUTO)
-	private String userId;
-	//@OneToOne
-	//@OneToOne(mappedBy="trainer")
-	//@OneToMany(mappedBy="trainer",cascade=CascadeType.ALL)
-	//private Trainee trainee;
-
+	private String TrainerId;
 	
-
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	@MapsId
+	@JoinColumn(name = "userID")
+	private Users user;
 	
-
+	@NotEmpty
+	@Size(min = 2, message = "MIN 2 char required.")
+	private String name;
 	
+	@NotEmpty
+	@Size(min = 2, message = "MIN 2 char required.")
+	private String technology;
+	
+	@NotEmpty
+	@Size(min = 2, message = "MIN 2 char required.")
+	private String location;
+	
+	@NotEmpty
+	@Size(min = 2, message = "MIN 2 char required.")
+	private String contact;
+	
+	@Column(unique=true)
+	@Email(message="Enter Correct Email")
+	private String email;
 }
